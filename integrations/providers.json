@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "connection_model": "explicit_credentials_or_oauth",
+  "providers": [
+    {
+      "id": "github",
+      "status": "planned",
+      "methods": ["GitHub App or fine-grained token"],
+      "minimum_scopes": ["contents:read", "contents:write only when approved", "actions:read", "actions:write only when approved"],
+      "features": ["repositories", "files", "commits", "pull_requests", "issues", "actions"]
+    },
+    {
+      "id": "cloudflare",
+      "status": "planned",
+      "methods": ["Cloudflare API token"],
+      "minimum_scopes": ["Workers Scripts read/write as needed", "D1 read/write as needed"],
+      "features": ["workers", "d1", "kv", "r2", "dns"]
+    },
+    {
+      "id": "other_services",
+      "status": "planned",
+      "methods": ["OAuth or provider API credentials"],
+      "features": ["connectors added one at a time after compatibility and security review"]
+    }
+  ],
+  "credential_storage": {
+    "allowed": ["GitHub Actions encrypted secrets", "Cloudflare Worker secrets"],
+    "forbidden": ["public repository files", "plain-text logs", "D1 chat messages", "model prompts"]
+  },
+  "policy": "ChatGPT-connected plugins/connectors are not automatically inherited by EURO AI. Each provider must be connected separately with its own authorized credentials."
+}
