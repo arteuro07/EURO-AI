@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from core.brain import chat_completion_stream
+from core.capabilities import capability_context, render_capabilities
 from core.logic import analyze
 from core.memory import format_memories, forget, remember, retrieve
 
@@ -33,6 +34,8 @@ def build_prompt_and_message(message: str):
         return None, "Écris une demande pour EURO AI."
 
     lower = text.lower()
+    if lower in ("capacités", "capacites", "mes capacités", "mes capacites", "que sais-tu faire", "quelles sont tes capacités", "quelles sont tes capacites"):
+        return None, render_capabilities()
     if lower.startswith(("mémorise :", "memorise :", "souviens-toi :")):
         content = text.split(":", 1)[1].strip()
         if not content:
@@ -70,6 +73,7 @@ def build_prompt_and_message(message: str):
         f"Tu es {config.get('name', 'EURO AI')}, un agent IA personnel, proactif et polyvalent.\n"
         f"Langue préférée : {language}.\n"
         + identity_context +
+        capability_context() + "\\n\\n" +
         "Comprends l'objectif réel, raisonne avec méthode et prends des initiatives utiles. "
         "Pour une tâche importante, organise le travail en étapes et indique la prochaine action concrète. "
         "Signale les risques, améliorations et opportunités pertinentes. Ne pose une question que si "
