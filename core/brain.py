@@ -6,7 +6,7 @@ from urllib.error import URLError, HTTPError
 from urllib.request import Request, urlopen
 
 
-def chat_completion_stream(system_prompt: str, user_message: str):
+def chat_completion_stream(system_prompt: str, user_message: str, max_tokens: int = 220):
     base_url = os.environ.get("EURO_AI_LOCAL_API", "http://127.0.0.1:8080/v1").rstrip("/")
     payload = {
         "model": "EURO-AI-local",
@@ -16,7 +16,7 @@ def chat_completion_stream(system_prompt: str, user_message: str):
         ],
         "temperature": 0.35,
         "top_p": 0.85,
-        "max_tokens": 220,
+        "max_tokens": max(32, min(int(max_tokens), 600)),
         "stream": True,
         "reasoning_effort": "none",
         "chat_template_kwargs": {"enable_thinking": False}
