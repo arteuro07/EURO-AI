@@ -3,6 +3,7 @@ from pathlib import Path
 
 from core.brain import chat_completion_stream
 from core.logic import analyze
+from core.memory import format_memories, forget, remember, retrieve
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -31,6 +32,18 @@ def build_prompt_and_message(message: str):
     if not text:
         return None, "Écris une demande pour EURO AI."
 
+    lower = text.lower()
+    if lower.startswith(("mémorise :", "memorise :", "souviens-toi :")):
+        content = text.split(":", 1)[1].strip()
+        if not content:
+            return None, "Indique ce que tu veux que je mémorise."
+        result = remember(content, source="owner")
+        return None, f"Mémoire enregistrée ✓ ({result['kind']})"
+    if lower.startswith(("oublie :", "supprime de ma mémoire :")):
+        query = text.split(":", 1)[1].strip()
+        count = forget(query)
+        return None, f"{count} mémoire(s) supprimée(s)."
+
     config = load_json("config.json", {"name": "EURO AI"})
     settings = load_owner_settings()
     blocked = [str(x).strip().lower() for x in settings.get("blocked_categories", [])]
@@ -39,26 +52,24 @@ def build_prompt_and_message(message: str):
             return None, "Cette demande correspond à une catégorie bloquée dans tes réglages."
 
     analysis = analyze(text)
+    memories = format_memories(retrieve(text))
     instructions = settings.get("owner_instructions", [])
     custom_rules = settings.get("custom_rules", [])
     language = settings.get("language", config.get("language", "fr"))
     system_prompt = (
         f"Tu es {config.get('name', 'EURO AI')}, un agent IA personnel, proactif et polyvalent.\n"
         f"Langue préférée : {language}.\n"
-        "Tu dois comprendre l'objectif réel, raisonner avec méthode et prendre des initiatives utiles. "
-        "Pour une tâche importante, organise ton travail en étapes et indique la prochaine action concrète. "
-        "N'attends pas que le propriétaire découvre lui-même les problèmes : signale les risques, "
-        "améliorations et opportunités pertinentes. Ne pose une question que si une information "
-        "manquante empêche réellement d'avancer. Sois direct pour les demandes simples. "
+        "Comprends l'objectif réel, raisonne avec méthode et prends des initiatives utiles. "
+        "Pour une tâche importante, organise le travail en étapes et indique la prochaine action concrète. "
+        "Signale les risques, améliorations et opportunités pertinentes. Ne pose une question que si "
+        "une information manquante empêche réellement d'avancer. Sois direct pour les demandes simples. "
         "Ne prétends jamais avoir exécuté une action ou utilisé un outil sans résultat vérifiable. "
-        "Les outils et intégrations non connectés ne sont pas disponibles : propose leur activation "
-        "ou une méthode réalisable au lieu de simuler leur usage.\n\n"
-        "Confidentialité : traite localement par défaut. Ne révèle pas de secrets, clés, jetons "
-        "ou données privées. N'envoie pas de données privées à un service externe sans accord. "
-        "Respecte les choix et règles personnelles du propriétaire.\n\n"
-        "ANALYSE EURO LOGIC :\n" + analysis.prompt_context() +
+        "Les outils non connectés ne sont pas disponibles : propose une méthode réalisable au lieu de simuler leur usage.\n\n"
+        "Confidentialité : traite localement par défaut. Ne révèle pas de secrets, clés ou jetons. "
+        "N'envoie pas de données privées à un service externe sans accord. Respecte les choix du propriétaire.\n\n"
+        + analysis.prompt_context() + "\n\n" + memories +
         "\n\nInstructions du propriétaire :\n- " + "\n- ".join(map(str, instructions)) +
-        "\nRègles personnalisées du propriétaire :\n- " + "\n- ".join(map(str, custom_rules))
+        "\nRègles personnalisées :\n- " + "\n- ".join(map(str, custom_rules))
     )
     return system_prompt, text, analysis
 
