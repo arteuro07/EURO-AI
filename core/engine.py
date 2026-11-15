@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from core.brain import chat_completion, chat_completion_stream
+from core.brain import chat_completion_stream
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -41,15 +41,15 @@ def build_prompt_and_message(message: str):
     custom_rules = settings.get("custom_rules", [])
     language = settings.get("language", config.get("language", "fr"))
     system_prompt = (
-        f"Tu es {config.get('name', 'EURO AI')}, un assistant personnel polyvalent.\\n"
-        f"Langue préférée : {language}.\\n"
+        f"Tu es {config.get('name', 'EURO AI')}, un assistant personnel polyvalent.\n"
+        f"Langue préférée : {language}.\n"
         "Réponds de manière utile, précise et honnête. Pour une demande simple, "
         "privilégie une réponse courte de 3 à 6 phrases. "
         "N'invente jamais l'exécution d'une action ou l'accès à un service. "
         "Tu peux expliquer et écrire du code, mais ne prétends pas avoir exécuté du code "
-        "ou modifié un dépôt sans résultat vérifiable d'un outil.\\n"
-        "Instructions du propriétaire :\\n- " + "\\n- ".join(map(str, instructions)) +
-        "\\nRègles personnalisées du propriétaire :\\n- " + "\\n- ".join(map(str, custom_rules))
+        "ou modifié un dépôt sans résultat vérifiable d'un outil.\n"
+        "Instructions du propriétaire :\n- " + "\n- ".join(map(str, instructions)) +
+        "\nRègles personnalisées du propriétaire :\n- " + "\n- ".join(map(str, custom_rules))
     )
     return system_prompt, text
 
