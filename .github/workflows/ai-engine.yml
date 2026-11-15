@@ -14,8 +14,10 @@ on:
     branches: [main]
     paths:
       - "core/**"
+      - "tests/**"
       - "config.json"
       - "rules/**"
+      - "skills/registry.json"
       - ".github/workflows/ai-engine.yml"
 
 permissions:
@@ -46,8 +48,9 @@ jobs:
               print(f"OK: {path}")
           PY
       - name: Compile Python modules
-        if: ${{ github.event.inputs.operation == 'compile' || github.event_name == 'push' || github.event.inputs.operation == 'validate' }}
-        run: python -m compileall -q core
+        run: python -m compileall -q core tests
+      - name: Run EURO LOGIC tests
+        run: python -m unittest discover -s tests -v
       - name: Confirm local brain configuration
         run: |
           python - <<'PY'
