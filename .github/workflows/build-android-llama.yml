@@ -26,15 +26,19 @@ jobs:
           ref: master
           path: llama.cpp
 
-      - name: Install Android NDK
-        uses: android-actions/setup-android@v3
+      - name: Install Android SDK command-line tools
+        uses: android-actions/setup-android@v4
+        with:
+          packages: ''
+          log-accepted-android-sdk-licenses: 'false'
 
-      - name: Install CMake and Ninja
+      - name: Install Android NDK, CMake and Ninja
         run: |
           sudo apt-get update
           sudo apt-get install -y cmake ninja-build
           yes | sdkmanager --licenses >/dev/null
           sdkmanager "ndk;27.2.12479018"
+          test -f "$ANDROID_HOME/ndk/27.2.12479018/build/cmake/android.toolchain.cmake"
 
       - name: Configure Android ARM64 build
         working-directory: llama.cpp
@@ -42,7 +46,6 @@ jobs:
           ANDROID_NDK_VERSION: 27.2.12479018
         run: |
           NDK="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
-          test -f "$NDK/build/cmake/android.toolchain.cmake"
           cmake -S . -B build-android \
             -G Ninja \
             -DCMAKE_BUILD_TYPE=Release \
