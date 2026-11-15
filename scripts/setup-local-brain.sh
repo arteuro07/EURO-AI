@@ -9,7 +9,7 @@ MODEL_URL="https://huggingface.co/axteam/Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-
 MODEL_SHA="b4e71cb32694733ba40c69e595a0524dfbc2cabe3c28fb7fef99eed4cf8730bf"
 
 if [ ! -x "$PREFIX/bin/cmake" ] || [ ! -x "$PREFIX/bin/clang" ] || [ ! -x "$PREFIX/bin/make" ]; then
-  pkg install -y git cmake clang make pkg-config curl
+  pkg install -y git cmake clang make pkg-config curl coreutils
 fi
 mkdir -p "$(dirname "$CACHE")" "$MODEL_DIR"
 
