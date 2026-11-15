@@ -1,21 +1,208 @@
 {
-  "version": "1.2.0",
+  "version": "1.3.0",
   "language": "fr",
   "selection_mode": "logic_first_model_assisted",
   "modules": [
-    {"id":"euro_logic","name":"EURO LOGIC","description":"Moteur déterministe d'analyse d'intention, estimation de complexité, planification et routage.","capabilities":["classifier les demandes","estimer la complexité","choisir un budget de génération","décomposer les tâches","détecter les actions engageantes","préparer des initiatives utiles"],"status":"local_engine"},
-    {"id":"euro_brain","name":"EURO BRAIN","description":"Compréhension linguistique, raisonnement et génération avec le modèle local.","capabilities":["comprendre une demande","expliquer","raisonner","rédiger","synthétiser"],"permissions":"read"},
-    {"id":"euro_memory","name":"EURO MEMORY","description":"Mémoire personnelle persistante contrôlée par le propriétaire.","capabilities":["rappeler le contexte utile","enregistrer les préférences","mettre à jour les faits","consulter et supprimer les données à la demande"],"status":"d1_and_local_settings"},
-    {"id":"euro_privacy","name":"EURO PRIVACY","description":"Confidentialité des conversations, secrets et échanges avec les services externes.","capabilities":["traitement local par défaut","protéger les secrets","contrôler les transferts externes","tenir un journal des accès"],"status":"policy_foundation"},
-    {"id":"euro_initiative","name":"EURO INITIATIVE","description":"Agent proactif qui détecte les prochaines étapes, problèmes et opportunités.","capabilities":["proposer des améliorations","anticiper les obstacles","suggérer des projets","préparer des plans d'action"],"status":"logic_foundation"},
-    {"id":"euro_code","name":"EURO CODE","description":"Ingénierie logicielle et programmation.","capabilities":["Python","JavaScript","TypeScript","Java","Kotlin","HTML/CSS","SQL","API REST","architecture logicielle","tests","débogage","revue de code","optimisation","documentation"],"permissions":"read_and_workspace_write"},
-    {"id":"euro_terminal","name":"EURO TERMINAL","description":"Exécution de commandes dans les environnements connectés.","capabilities":["exécuter des tests","compiler des projets","lancer des scripts","inspecter les journaux","rapporter les résultats"],"status":"github_actions_available_termux_bridge_pending"},
-    {"id":"euro_github","name":"EURO GITHUB","description":"Gestion des dépôts et automatisations GitHub via API autorisée.","capabilities":["lire et modifier des fichiers","créer des commits","examiner issues et pull requests","déclencher GitHub Actions","lire les journaux"],"permissions":"github_scopes_required"},
-    {"id":"euro_cloud","name":"EURO CLOUD","description":"Gestion des ressources Cloudflare via API autorisée.","capabilities":["Workers","D1","KV","R2","DNS","déploiements","diagnostic API"],"permissions":"cloudflare_scopes_required"},
-    {"id":"scout","name":"SCOUT","description":"Recherche d'opportunités, marchés, entreprises et clients.","capabilities":["étudier un marché","repérer des opportunités","identifier des prospects","résumer des informations"],"permissions":"internet_connector_required"},
-    {"id":"sales","name":"SALES","description":"Préparation d'offres et communications commerciales.","capabilities":["rédiger une proposition","préparer un message commercial","structurer une offre","qualifier un prospect"],"permissions":"send_connector_required"},
-    {"id":"finance","name":"FINANCE","description":"Analyse de coûts, budgets, revenus et rentabilité.","capabilities":["calculer des coûts","préparer un budget","estimer une marge","comparer des scénarios"],"permissions":"read_and_calculate"},
-    {"id":"guard","name":"GUARD","description":"Contrôle de cohérence, confidentialité et effets des actions.","capabilities":["protéger les secrets","vérifier les effets","demander le choix du propriétaire pour les actions engageantes","journaliser les décisions"],"priority":0}
+    {
+      "id": "euro_logic",
+      "name": "EURO LOGIC",
+      "description": "Moteur déterministe d'analyse d'intention, estimation de complexité, planification et routage.",
+      "capabilities": [
+        "classifier les demandes",
+        "estimer la complexité",
+        "choisir un budget de génération",
+        "décomposer les tâches",
+        "détecter les actions engageantes",
+        "préparer des initiatives utiles"
+      ],
+      "status": "local_engine",
+      "availability": "operational",
+      "current_state": "Actif dans core/logic.py."
+    },
+    {
+      "id": "euro_brain",
+      "name": "EURO BRAIN",
+      "description": "Compréhension linguistique, raisonnement et génération avec le modèle local.",
+      "capabilities": [
+        "comprendre une demande",
+        "expliquer",
+        "raisonner",
+        "rédiger",
+        "synthétiser"
+      ],
+      "permissions": "read",
+      "availability": "operational",
+      "current_state": "Qwen3.5-0.8B via llama.cpp sur Termux."
+    },
+    {
+      "id": "euro_memory",
+      "name": "EURO MEMORY",
+      "description": "Mémoire personnelle persistante contrôlée par le propriétaire.",
+      "capabilities": [
+        "rappeler le contexte utile",
+        "enregistrer les préférences",
+        "mettre à jour les faits",
+        "consulter et supprimer les données à la demande"
+      ],
+      "status": "d1_and_local_settings",
+      "availability": "partial",
+      "current_state": "Mémoire SQLite locale opérationnelle ; synchronisation D1 non réalisée."
+    },
+    {
+      "id": "euro_privacy",
+      "name": "EURO PRIVACY",
+      "description": "Confidentialité des conversations, secrets et échanges avec les services externes.",
+      "capabilities": [
+        "traitement local par défaut",
+        "protéger les secrets",
+        "contrôler les transferts externes",
+        "tenir un journal des accès"
+      ],
+      "status": "policy_foundation",
+      "availability": "partial",
+      "current_state": "Règles de confidentialité dans le prompt ; journalisation et contrôle technique des transferts à compléter."
+    },
+    {
+      "id": "euro_initiative",
+      "name": "EURO INITIATIVE",
+      "description": "Agent proactif qui détecte les prochaines étapes, problèmes et opportunités.",
+      "capabilities": [
+        "proposer des améliorations",
+        "anticiper les obstacles",
+        "suggérer des projets",
+        "préparer des plans d'action"
+      ],
+      "status": "logic_foundation",
+      "availability": "partial",
+      "current_state": "Suggestions préparées par EURO LOGIC et le prompt ; autonomie planifiée encore à construire."
+    },
+    {
+      "id": "euro_code",
+      "name": "EURO CODE",
+      "description": "Ingénierie logicielle et programmation.",
+      "capabilities": [
+        "Python",
+        "JavaScript",
+        "TypeScript",
+        "Java",
+        "Kotlin",
+        "HTML/CSS",
+        "SQL",
+        "API REST",
+        "architecture logicielle",
+        "tests",
+        "débogage",
+        "revue de code",
+        "optimisation",
+        "documentation"
+      ],
+      "permissions": "read_and_workspace_write",
+      "availability": "partial",
+      "current_state": "Le modèle peut aider à coder ; exécution et validation reposent sur les outils disponibles."
+    },
+    {
+      "id": "euro_terminal",
+      "name": "EURO TERMINAL",
+      "description": "Exécution de commandes dans les environnements connectés.",
+      "capabilities": [
+        "exécuter des tests",
+        "compiler des projets",
+        "lancer des scripts",
+        "inspecter les journaux",
+        "rapporter les résultats"
+      ],
+      "status": "github_actions_available_termux_bridge_pending",
+      "availability": "partial",
+      "current_state": "GitHub Actions exécute les workflows du dépôt ; pont de terminal Termux non installé."
+    },
+    {
+      "id": "euro_github",
+      "name": "EURO GITHUB",
+      "description": "Gestion des dépôts et automatisations GitHub via API autorisée.",
+      "capabilities": [
+        "lire et modifier des fichiers",
+        "créer des commits",
+        "examiner issues et pull requests",
+        "déclencher GitHub Actions",
+        "lire les journaux"
+      ],
+      "permissions": "github_scopes_required",
+      "availability": "partial",
+      "current_state": "Dépôt et workflows utilisables via intégration/API autorisée ; connexion propre à EURO AI non configurée."
+    },
+    {
+      "id": "euro_cloud",
+      "name": "EURO CLOUD",
+      "description": "Gestion des ressources Cloudflare via API autorisée.",
+      "capabilities": [
+        "Workers",
+        "D1",
+        "KV",
+        "R2",
+        "DNS",
+        "déploiements",
+        "diagnostic API"
+      ],
+      "permissions": "cloudflare_scopes_required",
+      "availability": "partial",
+      "current_state": "Worker Cloudflare existant ; gestion automatisée des ressources depuis EURO AI non intégrée."
+    },
+    {
+      "id": "scout",
+      "name": "SCOUT",
+      "description": "Recherche d'opportunités, marchés, entreprises et clients.",
+      "capabilities": [
+        "étudier un marché",
+        "repérer des opportunités",
+        "identifier des prospects",
+        "résumer des informations"
+      ],
+      "permissions": "internet_connector_required",
+      "availability": "planned",
+      "current_state": "Recherche web autonome non intégrée."
+    },
+    {
+      "id": "sales",
+      "name": "SALES",
+      "description": "Préparation d'offres et communications commerciales.",
+      "capabilities": [
+        "rédiger une proposition",
+        "préparer un message commercial",
+        "structurer une offre",
+        "qualifier un prospect"
+      ],
+      "permissions": "send_connector_required",
+      "availability": "partial",
+      "current_state": "Rédaction possible localement ; envoi commercial non connecté."
+    },
+    {
+      "id": "finance",
+      "name": "FINANCE",
+      "description": "Analyse de coûts, budgets, revenus et rentabilité.",
+      "capabilities": [
+        "calculer des coûts",
+        "préparer un budget",
+        "estimer une marge",
+        "comparer des scénarios"
+      ],
+      "permissions": "read_and_calculate",
+      "availability": "partial",
+      "current_state": "Raisonnement et estimations possibles ; moteur de calcul financier dédié non construit."
+    },
+    {
+      "id": "guard",
+      "name": "GUARD",
+      "description": "Contrôle de cohérence, confidentialité et effets des actions.",
+      "capabilities": [
+        "protéger les secrets",
+        "vérifier les effets",
+        "demander le choix du propriétaire pour les actions engageantes",
+        "journaliser les décisions"
+      ],
+      "priority": 0,
+      "availability": "partial",
+      "current_state": "Règles de contrôle présentes ; journal d'audit et exécution contrôlée à compléter."
+    }
   ],
   "operating_principles": [
     "EURO LOGIC analyse chaque demande avant de la transmettre au cerveau.",
@@ -24,5 +211,6 @@
     "Le propriétaire choisit les actions externes engageantes, destructrices ou irréversibles.",
     "Les données privées restent locales par défaut et ne sont pas transférées sans accord.",
     "Les capacités affichées comme fondations ne sont pas considérées comme opérationnelles tant que leur connecteur ou moteur n'est pas installé."
-  ]
+  ],
+  "capability_policy": "Ne jamais présenter une capacité partielle ou planifiée comme opérationnelle. Vérifier l'état du registre avant de promettre une action."
 }
