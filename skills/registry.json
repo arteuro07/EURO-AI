@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "language": "fr",
   "selection_mode": "logic_first_model_assisted",
   "modules": [
@@ -135,17 +135,14 @@
       "name": "EURO CLOUD",
       "description": "Gestion des ressources Cloudflare via API autorisée.",
       "capabilities": [
-        "Workers",
-        "D1",
-        "KV",
-        "R2",
-        "DNS",
-        "déploiements",
-        "diagnostic API"
+        "lister les Workers (lecture seule)",
+        "lister les bases D1 (lecture seule)",
+        "diagnostiquer la connexion API",
+        "modifications et déploiements : non disponibles dans cette version"
       ],
       "permissions": "cloudflare_scopes_required",
       "availability": "partial",
-      "current_state": "Worker Cloudflare existant ; gestion automatisée des ressources depuis EURO AI non intégrée."
+      "current_state": "Client API en lecture seule ajouté dans core/cloudflare.py pour lister les Workers et bases D1 ; connexion réelle en attente du token et de l'Account ID du propriétaire. Aucune opération d'écriture n'est exposée."
     },
     {
       "id": "scout",
