@@ -18,4 +18,5 @@ exec "$SERVER" \
   --batch-size 128 \
   --ubatch-size 64 \
   --parallel 1 \
-  --jinja
+  --jinja \
+  --reasoning off
