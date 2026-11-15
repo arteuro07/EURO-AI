@@ -3,6 +3,7 @@ from pathlib import Path
 
 from core.brain import chat_completion_stream
 from core.capabilities import capability_context, render_capabilities
+from core.cloudflare import run_readonly_command
 from core.logic import analyze
 from core.memory import format_memories, forget, remember, retrieve
 
@@ -36,6 +37,11 @@ def build_prompt_and_message(message: str):
     lower = text.lower()
     if lower in ("capacités", "capacites", "mes capacités", "mes capacites", "que sais-tu faire", "quelles sont tes capacités", "quelles sont tes capacites"):
         return None, render_capabilities()
+    if lower.startswith(("cloudflare ", "euro cloud ")):
+        command = lower.split(maxsplit=2)[2] if len(lower.split(maxsplit=2)) > 2 else "help"
+        if command in ("status", "workers", "d1"):
+            return None, run_readonly_command(command)
+        return None, "Commandes disponibles : cloudflare status, cloudflare workers, cloudflare d1."
     if ("cloudflare" in lower or "worker" in lower) and any(term in lower for term in ("peux-tu", "peut-tu", "peux tu", "as-tu accès", "as tu acces", "directement", "modifier", "déployer", "deployer", "gérer", "gerer")):
         return None, (
             "Je connais déjà ton infrastructure Cloudflare :\n"
