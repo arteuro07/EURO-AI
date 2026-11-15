@@ -1,6 +1,6 @@
 {
   "name": "EURO AI",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "mode": "hybrid",
   "owner_controls_rules": true,
   "memory_enabled": true,
@@ -19,7 +19,22 @@
     "context_tokens": 4096,
     "local_api": "http://127.0.0.1:8080/v1",
     "heavy_compute": "github-actions",
-    "github_execution": ["on-demand", "scheduled"]
+    "github_execution": [
+      "on-demand",
+      "scheduled"
+    ]
   },
-  "skills_registry": "skills/registry.json"
+  "skills_registry": "skills/registry.json",
+  "agent": {
+    "initiative_enabled": true,
+    "logic_engine": "core/logic.py",
+    "execution_style": "proactive_proposal",
+    "local_tasks": "continue_without_repeated_confirmation_when_requested",
+    "external_actions": "present_proposal_and_wait_for_owner_choice",
+    "privacy": {
+      "local_first": true,
+      "external_private_data_transfer_requires_owner_approval": true,
+      "never_expose_secrets": true
+    }
+  }
 }
