@@ -1,0 +1,45 @@
+name: EURO AI Engine
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: "Message à envoyer à EURO AI"
+        required: true
+        type: string
+  schedule:
+    - cron: "17 */6 * * *"
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: euro-ai-engine
+  cancel-in-progress: false
+
+jobs:
+  run-engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run EURO AI
+        env:
+          USER_PROMPT: ${{ github.event.inputs.prompt }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python - <<'PY'
+          import os
+          from core.engine import answer
+          prompt = os.environ.get("USER_PROMPT", "").strip()
+          if not prompt:
+              prompt = "Tâche automatique : vérifier que le moteur EURO AI fonctionne."
+          print(answer(prompt))
+          PY
