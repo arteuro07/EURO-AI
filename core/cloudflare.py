@@ -94,6 +94,32 @@ def _print_items(title, items, name_key):
         print("- " + str(name))
 
 
+def run_readonly_command(command):
+    """Retourne le résultat texte d'une commande EURO CLOUD autorisée."""
+    if command == "status":
+        return (
+            "EURO CLOUD : client lecture seule installé.\\n"
+            f"Token : {'présent' if os.environ.get('CLOUDFLARE_API_TOKEN') else 'absent'}\\n"
+            f"Account ID : {'présent' if os.environ.get('CLOUDFLARE_ACCOUNT_ID') else 'absent'}\\n"
+            "Aucune requête réseau effectuée."
+        )
+    if command not in ("workers", "d1"):
+        return "Commande EURO CLOUD inconnue. Commandes : status, workers, d1."
+    try:
+        client = CloudflareReadOnlyClient()
+        if command == "workers":
+            items = client.list_workers()
+            lines = [f"Workers Cloudflare ({len(items)})"]
+            lines.extend("- " + str(item.get("id", "nom inconnu")) for item in items)
+        else:
+            items = client.list_d1_databases()
+            lines = [f"Bases D1 Cloudflare ({len(items)})"]
+            lines.extend("- " + str(item.get("name", "nom inconnu")) for item in items)
+        return "\\n".join(lines)
+    except (CloudflareConfigError, CloudflareAPIError) as exc:
+        return "EURO CLOUD : " + str(exc)
+
+
 def main(argv=None):
     args = list(sys.argv[1:] if argv is None else argv)
     command = args[0] if args else "help"
