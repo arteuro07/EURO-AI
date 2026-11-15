@@ -5,7 +5,6 @@ REPO="arteuro07/EURO-AI"
 WORKFLOW="build-android-llama.yml"
 ARTIFACT="llama-server-android-arm64"
 BIN_DIR="$HOME/.local/bin/euro-ai"
-SERVER="$BIN_DIR/llama-server"
 MODEL_DIR="$HOME/.local/share/euro-ai/models"
 MODEL="$MODEL_DIR/Qwen3.5-0.8B-Q4_K_M.gguf"
 MODEL_URL="https://huggingface.co/axteam/Qwen3.5-0.8B-GGUF/resolve/main/Qwen3.5-0.8B-Q4_K_M.gguf"
@@ -36,12 +35,26 @@ fi
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 gh run download "$RUN_ID" --repo "$REPO" --name "$ARTIFACT" --dir "$TMP_DIR"
-FOUND="$(find "$TMP_DIR" -type f -name llama-server -print -quit)"
-[ -n "$FOUND" ] || { echo "llama-server absent de l'artefact téléchargé."; exit 1; }
 
 mkdir -p "$BIN_DIR" "$MODEL_DIR"
-install -m 755 "$FOUND" "$SERVER"
-echo "Binaire Android installé : $SERVER"
+FOUND_SERVER=0
+while IFS= read -r -d '' FILE; do
+  BASE="$(basename "$FILE")"
+  case "$BASE" in
+    llama-server|*.so)
+      install -m 755 "$FILE" "$BIN_DIR/$BASE"
+      [ "$BASE" != "llama-server" ] || FOUND_SERVER=1
+      ;;
+  esac
+done < <(find "$TMP_DIR" -type f -print0)
+
+[ "$FOUND_SERVER" -eq 1 ] || { echo "llama-server absent de l'artefact."; exit 1; }
+[ -s "$BIN_DIR/libllama-server-impl.so" ] || {
+  echo "Bibliothèque libllama-server-impl.so absente de l'artefact."
+  exit 1
+}
+echo "Serveur et bibliothèques Android installés dans : $BIN_DIR"
+ls -lh "$BIN_DIR"/llama-server "$BIN_DIR"/*.so
 
 if [ ! -s "$MODEL" ]; then
   echo "Téléchargement du modèle Q4 (environ 542 Mo)…"
@@ -51,5 +64,5 @@ fi
 
 echo "$MODEL_SHA  $MODEL" | sha256sum -c -
 echo
-echo "Installation terminée. Le téléphone n'a effectué aucune compilation."
+echo "Installation terminée."
 echo "Lance : bash scripts/start-local-brain.sh"
