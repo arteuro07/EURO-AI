@@ -11,6 +11,9 @@ MODEL_SHA="b4e71cb32694733ba40c69e595a0524dfbc2cabe3c28fb7fef99eed4cf8730bf"
 if [ ! -x "$PREFIX/bin/cmake" ] || [ ! -x "$PREFIX/bin/clang" ] || [ ! -x "$PREFIX/bin/make" ]; then
   pkg install -y git cmake clang make pkg-config curl coreutils
 fi
+if ! command -v sha256sum >/dev/null 2>&1; then
+  pkg install -y coreutils
+fi
 mkdir -p "$(dirname "$CACHE")" "$MODEL_DIR"
 
 if [ ! -d "$CACHE/.git" ]; then
