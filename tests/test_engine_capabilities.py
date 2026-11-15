@@ -11,8 +11,11 @@ class EuroEngineCapabilityAnswerTests(unittest.TestCase):
         self.assertIsNone(prompt)
         self.assertIn("euro-ai.arteuro07.workers.dev", answer)
         self.assertIn("euro-ai-db", answer)
-        self.assertIn("pas encore de connecteur Cloudflare opérationnel", answer)
-        self.assertIn("diagnostics en lecture seule", answer)
+        self.assertIn("client EURO CLOUD en lecture seule", answer)
+        self.assertIn("pas encore authentifié", answer)
+        self.assertIn("token API", answer)
+        self.assertIn("Account ID", answer)
+        self.assertIn("ne peux donc pas modifier ou déployer", answer)
 
 
 if __name__ == "__main__":
