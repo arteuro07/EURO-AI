@@ -48,9 +48,9 @@ def build_prompt_and_message(message: str):
             "- Worker EURO AI : https://euro-ai.arteuro07.workers.dev\n"
             "- Son rôle : passerelle API et panneau de contrôle ; le cerveau Qwen reste sur ton téléphone, dans Termux.\n"
             "- Base D1 : euro-ai-db, binding EURO_DB.\n\n"
-            "Limite actuelle : je ne possède pas encore de connecteur Cloudflare opérationnel dans mon propre runtime. "
+            "Limite actuelle : mon client EURO CLOUD en lecture seule est maintenant installé, mais il n'est pas encore authentifié : il me manque le token API et l'Account ID dans les variables d'environnement. "
             "Je ne peux donc pas modifier ou déployer un Worker directement depuis cette commande, et je ne vais pas prétendre le contraire.\n\n"
-            "Prochaine étape concrète : construire EURO CLOUD avec une connexion API sécurisée, commencer par des diagnostics en lecture seule, "
+            "Prochaine étape concrète : configurer ces deux variables, vérifier la liste des Workers et des bases D1 en lecture seule, "
             "puis ajouter les modifications de Workers avec validation du propriétaire."
         )
     if lower.startswith(("mémorise :", "memorise :", "souviens-toi :")):
