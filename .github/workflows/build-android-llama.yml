@@ -69,7 +69,8 @@ jobs:
         working-directory: llama.cpp
         run: |
           mkdir -p runtime
-          find build-android -type f \\( -name 'llama-server' -o -name '*.so' \\) -exec cp -t runtime {} +
+          find build-android -type f -name 'llama-server' -exec cp -t runtime {} +
+          find build-android -type f -name '*.so' -exec cp -t runtime {} +
           test -s runtime/llama-server
           test -s runtime/libllama-server-impl.so
           file runtime/llama-server
