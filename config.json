@@ -36,5 +36,14 @@
       "external_private_data_transfer_requires_owner_approval": true,
       "never_expose_secrets": true
     }
+  },
+  "cloudflare": {
+    "worker_url": "https://euro-ai.arteuro07.workers.dev",
+    "worker_status": "deployed",
+    "worker_role": "Passerelle API et panneau de contrôle ; ne fait pas tourner le modèle local.",
+    "d1_database_name": "euro-ai-db",
+    "d1_binding": "EURO_DB",
+    "management_from_euro_ai": "not_integrated",
+    "note": "Ne jamais supposer que les identifiants API Cloudflare sont configurés dans le runtime EURO AI."
   }
 }
