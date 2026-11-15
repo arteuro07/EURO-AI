@@ -65,18 +65,22 @@ jobs:
         working-directory: llama.cpp
         run: cmake --build build-android --config Release --parallel 2 --target llama-server
 
-      - name: Verify Android binary
+      - name: Collect Android runtime files
         working-directory: llama.cpp
         run: |
-          test -s build-android/bin/llama-server
-          file build-android/bin/llama-server
-          readelf -h build-android/bin/llama-server | grep -E "Class:|Machine:"
-          readelf -h build-android/bin/llama-server | grep -q "AArch64"
+          mkdir -p runtime
+          find build-android -type f \\( -name 'llama-server' -o -name '*.so' \\) -exec cp -t runtime {} +
+          test -s runtime/llama-server
+          test -s runtime/libllama-server-impl.so
+          file runtime/llama-server
+          readelf -h runtime/llama-server | grep -q "AArch64"
+          echo "Runtime files:"
+          ls -lh runtime
 
-      - name: Upload Android ARM64 binary
+      - name: Upload Android ARM64 runtime
         uses: actions/upload-artifact@v4
         with:
           name: llama-server-android-arm64
-          path: llama.cpp/build-android/bin/llama-server
+          path: llama.cpp/runtime/
           if-no-files-found: error
           retention-days: 14
