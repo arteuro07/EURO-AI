@@ -57,7 +57,7 @@ def chat_completion_stream(system_prompt: str, user_message: str):
     except (URLError, HTTPError, TimeoutError, KeyError, IndexError, ValueError) as exc:
         raise RuntimeError(
             "Impossible de joindre le cerveau local. Vérifie que le serveur tourne "
-            "avec bash scripts/start-local-brain.sh.\\n"
+            "avec bash scripts/start-local-brain.sh.\n"
             f"Détail technique : {exc}"
         ) from exc
 
