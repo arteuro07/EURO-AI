@@ -36,6 +36,17 @@ def build_prompt_and_message(message: str):
     lower = text.lower()
     if lower in ("capacités", "capacites", "mes capacités", "mes capacites", "que sais-tu faire", "quelles sont tes capacités", "quelles sont tes capacites"):
         return None, render_capabilities()
+    if ("cloudflare" in lower or "worker" in lower) and any(term in lower for term in ("peux-tu", "peut-tu", "peux tu", "as-tu accès", "as tu acces", "directement", "modifier", "déployer", "deployer", "gérer", "gerer")):
+        return None, (
+            "Je connais déjà ton infrastructure Cloudflare :\n"
+            "- Worker EURO AI : https://euro-ai.arteuro07.workers.dev\n"
+            "- Son rôle : passerelle API et panneau de contrôle ; le cerveau Qwen reste sur ton téléphone, dans Termux.\n"
+            "- Base D1 : euro-ai-db, binding EURO_DB.\n\n"
+            "Limite actuelle : je ne possède pas encore de connecteur Cloudflare opérationnel dans mon propre runtime. "
+            "Je ne peux donc pas modifier ou déployer un Worker directement depuis cette commande, et je ne vais pas prétendre le contraire.\n\n"
+            "Prochaine étape concrète : construire EURO CLOUD avec une connexion API sécurisée, commencer par des diagnostics en lecture seule, "
+            "puis ajouter les modifications de Workers avec validation du propriétaire."
+        )
     if lower.startswith(("mémorise :", "memorise :", "souviens-toi :")):
         content = text.split(":", 1)[1].strip()
         if not content:
