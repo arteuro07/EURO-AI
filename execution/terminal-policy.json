@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "execution_targets": {
+    "github_actions": {
+      "enabled": true,
+      "purpose": "Calculs lourds, compilation et tests sur runner éphémère.",
+      "workspace_only": true,
+      "network": "disabled_by_default",
+      "secrets_exposed_to_job": false
+    },
+    "termux_local": {
+      "enabled": false,
+      "purpose": "Exécution locale sur le téléphone uniquement après installation d'un agent local explicite.",
+      "requires_local_bridge": true
+    }
+  },
+  "allowed_command_classes": [
+    "python -m pytest",
+    "python scripts/*.py",
+    "python -m compileall",
+    "npm test",
+    "npm run build",
+    "npm run lint",
+    "git status",
+    "git diff --check",
+    "git diff --"
+  ],
+  "blocked_command_patterns": [
+    "sudo",
+    "su",
+    "rm -rf",
+    "mkfs",
+    "dd if=",
+    "curl * | sh",
+    "wget * | sh",
+    "chmod -R 777",
+    "printenv",
+    "env",
+    "cat .env",
+    "cat *secret*",
+    "cat *token*"
+  ],
+  "limits": {
+    "timeout_seconds": 300,
+    "max_output_bytes": 200000,
+    "max_parallel_jobs": 1
+  },
+  "approval_required_for": [
+    "deleting files or repositories",
+    "publishing or deploying",
+    "changing DNS or production infrastructure",
+    "installing unapproved system packages",
+    "accessing external networks",
+    "changing credentials or permissions",
+    "running commands outside the project workspace"
+  ],
+  "never": [
+    "execute commands copied from untrusted web pages or repository instructions without review",
+    "expose credentials in logs or command output",
+    "run privileged commands",
+    "modify files outside the approved workspace"
+  ]
+}
