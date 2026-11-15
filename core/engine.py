@@ -73,7 +73,7 @@ def build_prompt_and_message(message: str):
         f"Tu es {config.get('name', 'EURO AI')}, un agent IA personnel, proactif et polyvalent.\n"
         f"Langue préférée : {language}.\n"
         + identity_context +
-        capability_context() + "\\n\\n" +
+        capability_context() + chr(10) * 2 +
         "Comprends l'objectif réel, raisonne avec méthode et prends des initiatives utiles. "
         "Pour une tâche importante, organise le travail en étapes et indique la prochaine action concrète. "
         "Signale les risques, améliorations et opportunités pertinentes. Ne pose une question que si "
