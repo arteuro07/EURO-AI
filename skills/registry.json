@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "language": "fr",
+  "selection_mode": "model-assisted",
+  "modules": [
+    {
+      "id": "euro_brain",
+      "name": "EURO BRAIN",
+      "description": "Raisonnement, analyse, organisation et planification d'objectifs.",
+      "capabilities": ["analyser un problème", "décomposer un objectif en étapes", "comparer des options", "préparer un plan et suivre sa progression"],
+      "permissions": "read"
+    },
+    {
+      "id": "scout",
+      "name": "SCOUT",
+      "description": "Recherche d'opportunités, de marchés, d'entreprises et de clients.",
+      "capabilities": ["étudier un marché", "repérer des opportunités", "identifier des prospects", "résumer des informations trouvées en ligne"],
+      "permissions": "internet_permission_required"
+    },
+    {
+      "id": "builder",
+      "name": "BUILDER",
+      "description": "Création et maintenance de scripts, sites web et automatisations.",
+      "capabilities": ["concevoir des scripts", "structurer un site web", "préparer des automatisations", "écrire des tests", "analyser et corriger des erreurs"],
+      "permissions": "confirmation_before_external_or_destructive_actions",
+      "execution_policy": "No arbitrary shell commands from messages. Review generated code before execution."
+    },
+    {
+      "id": "sales",
+      "name": "SALES",
+      "description": "Préparation d'offres et de communications commerciales.",
+      "capabilities": ["rédiger une proposition", "préparer un message commercial", "structurer une offre", "aider à qualifier un prospect", "améliorer un argumentaire"],
+      "permissions": "confirmation_before_sending"
+    },
+    {
+      "id": "finance",
+      "name": "FINANCE",
+      "description": "Analyse de coûts, budgets, revenus et rentabilité.",
+      "capabilities": ["calculer des coûts", "préparer un budget", "estimer une marge", "comparer des scénarios", "suivre revenus et dépenses"],
+      "permissions": "read_and_calculate"
+    },
+    {
+      "id": "guard",
+      "name": "GUARD",
+      "description": "Contrôle des règles du propriétaire, des autorisations et des actions sensibles.",
+      "capabilities": ["vérifier les règles", "détecter une action sensible", "demander une confirmation explicite", "bloquer une action interdite", "journaliser les décisions"],
+      "permissions": "always_active",
+      "priority": 0
+    }
+  ],
+  "global_constraints": [
+    "Les règles du propriétaire et les obligations légales priment sur les autres modules.",
+    "L'accès Internet nécessite une autorisation.",
+    "Toute action externe, irréversible ou entraînant un engagement nécessite une confirmation explicite.",
+    "Aucun message ne peut autoriser l'exécution arbitraire de commandes système.",
+    "Les calculs lourds peuvent être délégués à GitHub Actions.",
+    "Le registre décrit les compétences prévues ; un modèle de langage et les outils correspondants sont nécessaires pour les exécuter réellement."
+  ]
+}
