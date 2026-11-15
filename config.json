@@ -1,6 +1,6 @@
 {
   "name": "EURO AI",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "mode": "hybrid",
   "owner_controls_rules": true,
   "memory_enabled": true,
@@ -8,8 +8,13 @@
   "require_permission_for_actions": true,
   "language": "fr",
   "brain": {
-    "provider": "github-actions",
+    "provider": "hybrid",
+    "local_runtime": "Termux",
     "model": "to-be-selected",
-    "quantization": "Q4"
-  }
+    "size": "small",
+    "quantization": "Q4",
+    "heavy_compute": "github-actions",
+    "github_execution": ["on-demand", "scheduled"]
+  },
+  "skills_registry": "skills/registry.json"
 }
