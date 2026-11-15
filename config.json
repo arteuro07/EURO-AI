@@ -44,6 +44,22 @@
     "d1_database_name": "euro-ai-db",
     "d1_binding": "EURO_DB",
     "management_from_euro_ai": "not_integrated",
-    "note": "Ne jamais supposer que les identifiants API Cloudflare sont configurés dans le runtime EURO AI."
+    "note": "Ne jamais supposer que les identifiants API Cloudflare sont configurés dans le runtime EURO AI.",
+    "api_client": {
+      "module": "core/cloudflare.py",
+      "mode": "read_only",
+      "token_env": "CLOUDFLARE_API_TOKEN",
+      "account_id_env": "CLOUDFLARE_ACCOUNT_ID",
+      "required_permissions": [
+        "Workers Scripts Read",
+        "D1 Read"
+      ],
+      "supported_commands": [
+        "status",
+        "workers",
+        "d1"
+      ],
+      "writes_enabled": false
+    }
   }
 }
