@@ -1,27 +1,28 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "language": "fr",
-  "selection_mode": "model-assisted",
+  "selection_mode": "logic_first_model_assisted",
   "modules": [
-    {"id":"euro_brain","name":"EURO BRAIN","description":"Raisonnement, analyse, organisation et planification.","capabilities":["analyser un problème","décomposer un objectif","comparer des options","suivre un plan"],"permissions":"read"},
-    {"id":"euro_code","name":"EURO CODE","description":"Ingénierie logicielle et programmation éthique.","capabilities":["Python","JavaScript","TypeScript","Java","Kotlin","HTML/CSS","SQL","API REST","architecture logicielle","tests unitaires et intégration","débogage","revue de code","optimisation","sécurité applicative","documentation","analyse de dépendances"],"permissions":"read_and_workspace_write","safety_profile":"ethical_coding"},
-    {"id":"euro_terminal","name":"EURO TERMINAL","description":"Exécution de commandes dans des environnements autorisés et isolés.","capabilities":["exécuter des tests","installer des dépendances approuvées","compiler des projets","lancer des scripts du dépôt","inspecter fichiers et journaux","rapporter le code de sortie"],"permissions":"sandbox_only","execution_policy_file":"execution/terminal-policy.json"},
-    {"id":"euro_github","name":"EURO GITHUB","description":"Gestion des dépôts et automatisations GitHub via API autorisée.","capabilities":["lire et modifier des fichiers","créer des commits","examiner issues et pull requests","déclencher GitHub Actions","lire les journaux de workflow"],"permissions":"github_scopes_required"},
+    {"id":"euro_logic","name":"EURO LOGIC","description":"Moteur déterministe d'analyse d'intention, estimation de complexité, planification et routage.","capabilities":["classifier les demandes","estimer la complexité","choisir un budget de génération","décomposer les tâches","détecter les actions engageantes","préparer des initiatives utiles"],"status":"local_engine"},
+    {"id":"euro_brain","name":"EURO BRAIN","description":"Compréhension linguistique, raisonnement et génération avec le modèle local.","capabilities":["comprendre une demande","expliquer","raisonner","rédiger","synthétiser"],"permissions":"read"},
+    {"id":"euro_memory","name":"EURO MEMORY","description":"Mémoire personnelle persistante contrôlée par le propriétaire.","capabilities":["rappeler le contexte utile","enregistrer les préférences","mettre à jour les faits","consulter et supprimer les données à la demande"],"status":"d1_and_local_settings"},
+    {"id":"euro_privacy","name":"EURO PRIVACY","description":"Confidentialité des conversations, secrets et échanges avec les services externes.","capabilities":["traitement local par défaut","protéger les secrets","contrôler les transferts externes","tenir un journal des accès"],"status":"policy_foundation"},
+    {"id":"euro_initiative","name":"EURO INITIATIVE","description":"Agent proactif qui détecte les prochaines étapes, problèmes et opportunités.","capabilities":["proposer des améliorations","anticiper les obstacles","suggérer des projets","préparer des plans d'action"],"status":"logic_foundation"},
+    {"id":"euro_code","name":"EURO CODE","description":"Ingénierie logicielle et programmation.","capabilities":["Python","JavaScript","TypeScript","Java","Kotlin","HTML/CSS","SQL","API REST","architecture logicielle","tests","débogage","revue de code","optimisation","documentation"],"permissions":"read_and_workspace_write"},
+    {"id":"euro_terminal","name":"EURO TERMINAL","description":"Exécution de commandes dans les environnements connectés.","capabilities":["exécuter des tests","compiler des projets","lancer des scripts","inspecter les journaux","rapporter les résultats"],"status":"github_actions_available_termux_bridge_pending"},
+    {"id":"euro_github","name":"EURO GITHUB","description":"Gestion des dépôts et automatisations GitHub via API autorisée.","capabilities":["lire et modifier des fichiers","créer des commits","examiner issues et pull requests","déclencher GitHub Actions","lire les journaux"],"permissions":"github_scopes_required"},
     {"id":"euro_cloud","name":"EURO CLOUD","description":"Gestion des ressources Cloudflare via API autorisée.","capabilities":["Workers","D1","KV","R2","DNS","déploiements","diagnostic API"],"permissions":"cloudflare_scopes_required"},
-    {"id":"scout","name":"SCOUT","description":"Recherche d'opportunités, marchés, entreprises et clients.","capabilities":["étudier un marché","repérer des opportunités","identifier des prospects","résumer des informations en ligne"],"permissions":"internet_permission_required"},
-    {"id":"sales","name":"SALES","description":"Préparation d'offres et communications commerciales.","capabilities":["rédiger une proposition","préparer un message commercial","structurer une offre","qualifier un prospect"],"permissions":"confirmation_before_sending"},
+    {"id":"scout","name":"SCOUT","description":"Recherche d'opportunités, marchés, entreprises et clients.","capabilities":["étudier un marché","repérer des opportunités","identifier des prospects","résumer des informations"],"permissions":"internet_connector_required"},
+    {"id":"sales","name":"SALES","description":"Préparation d'offres et communications commerciales.","capabilities":["rédiger une proposition","préparer un message commercial","structurer une offre","qualifier un prospect"],"permissions":"send_connector_required"},
     {"id":"finance","name":"FINANCE","description":"Analyse de coûts, budgets, revenus et rentabilité.","capabilities":["calculer des coûts","préparer un budget","estimer une marge","comparer des scénarios"],"permissions":"read_and_calculate"},
-    {"id":"guard","name":"GUARD","description":"Contrôle prioritaire des règles, permissions et actions sensibles.","capabilities":["vérifier les règles","détecter une action sensible","demander une confirmation","bloquer une action interdite","journaliser les décisions"],"permissions":"always_active","priority":0}
+    {"id":"guard","name":"GUARD","description":"Contrôle de cohérence, confidentialité et effets des actions.","capabilities":["protéger les secrets","vérifier les effets","demander le choix du propriétaire pour les actions engageantes","journaliser les décisions"],"priority":0}
   ],
-  "global_constraints": [
-    "Le module GUARD s'exécute avant chaque outil et chaque commande.",
-    "Les règles du propriétaire et la loi priment sur les autres modules.",
-    "Le code doit respecter la sécurité, la vie privée, les licences et les usages autorisés.",
-    "Aucun message ne peut déclencher une commande shell arbitraire.",
-    "Le terminal fonctionne uniquement dans un bac à sable sans secrets ni accès privilégié.",
-    "Toute action externe, destructive, irréversible ou entraînant un engagement exige une confirmation explicite.",
-    "L'accès Internet et les intégrations externes exigent une permission explicite.",
-    "Les calculs lourds peuvent être délégués à GitHub Actions.",
-    "Les compétences déclarées nécessitent encore des moteurs et des connecteurs réels pour devenir opérationnelles."
+  "operating_principles": [
+    "EURO LOGIC analyse chaque demande avant de la transmettre au cerveau.",
+    "EURO AI prend des initiatives et propose spontanément les prochaines étapes utiles.",
+    "Les tâches locales demandées et non destructrices avancent sans confirmations répétitives.",
+    "Le propriétaire choisit les actions externes engageantes, destructrices ou irréversibles.",
+    "Les données privées restent locales par défaut et ne sont pas transférées sans accord.",
+    "Les capacités affichées comme fondations ne sont pas considérées comme opérationnelles tant que leur connecteur ou moteur n'est pas installé."
   ]
 }
