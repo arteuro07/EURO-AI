@@ -38,7 +38,7 @@ def build_prompt_and_message(message: str):
     if lower in ("capacités", "capacites", "mes capacités", "mes capacites", "que sais-tu faire", "quelles sont tes capacités", "quelles sont tes capacites"):
         return None, render_capabilities()
     if lower.startswith(("cloudflare ", "euro cloud ")):
-        command = lower.split(maxsplit=2)[2] if len(lower.split(maxsplit=2)) > 2 else "help"
+        command = lower.split()[-1] if len(lower.split()) >= 2 else "help"
         if command in ("status", "workers", "d1"):
             return None, run_readonly_command(command)
         return None, "Commandes disponibles : cloudflare status, cloudflare workers, cloudflare d1."
