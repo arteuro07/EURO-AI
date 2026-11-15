@@ -1,8 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 set -euo pipefail
-CACHE="$HOME/.cache/euro-ai/llama.cpp"
+SERVER="$HOME/.local/bin/euro-ai/llama-server"
 MODEL="$HOME/.local/share/euro-ai/models/Qwen3.5-0.8B-Q4_K_M.gguf"
-SERVER="$CACHE/build/bin/llama-server"
 
 [ -x "$SERVER" ] || { echo "llama-server absent. Lance d'abord bash scripts/setup-local-brain.sh"; exit 1; }
 [ -s "$MODEL" ] || { echo "Modèle absent. Lance d'abord bash scripts/setup-local-brain.sh"; exit 1; }
